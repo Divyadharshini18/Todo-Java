@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>main.java.com.todo</groupId>
+    <groupId>com.todo.Main</groupId>
     <artifactId>todo-application</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
@@ -42,7 +42,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>main.java.com.todo.Main</mainClass>
+                    <mainClass>com.todo.Main</mainClass>
                 </configuration>
             </plugin>
             <!-- Maven Shade Plugin for creating executable JAR -->
@@ -59,7 +59,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.main.java.todo.Main</mainClass>
+                                    <mainClass>com.todo.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
