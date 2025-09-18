@@ -26,6 +26,7 @@ public class TodoAppGUI extends JFrame {
         this.todoDAO = new TodoAppDAO();
         initializeComponents();
         setupLayout();
+        setupEventListeners();
         loadTodos();
     }
 
@@ -129,7 +130,21 @@ public class TodoAppGUI extends JFrame {
     }
 
     private void addTodo(){
+        String title = titleField.getText().trim();
+        String description = descriptionArea.getText().trim();
+        boolean completed = completedCheckbox.isSelected();
+
         
+        try{
+            Todo todo = new Todo(title,description);
+            todo.setCompleted(completed);
+            todoDAO.createtodo(todo);
+            JOptionPane.showMessageDialog(this, "Todo added successfully","Success", JOptionPane.INFORMATION_MESSAGE);
+            loadTodos();
+
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, "Error adding todo","Failure",JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void deleteTodo(){
