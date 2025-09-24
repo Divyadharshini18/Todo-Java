@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import com.todo.dao.TodoAppDAO;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -139,8 +137,7 @@ public class TodoAppGUI extends JFrame {
         String title = titleField.getText().trim();
         String description = descriptionArea.getText().trim();
         boolean completed = completedCheckbox.isSelected();
-
-        
+  
         try{
             Todo todo = new Todo(title,description);
             todo.setCompleted(completed);
@@ -255,7 +252,6 @@ public class TodoAppGUI extends JFrame {
         }catch(SQLException e){
             JOptionPane.showMessageDialog(this, "Error loading todos : "+e.getMessage(),"Database Error",JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
     private void updateTable(List<Todo> todos){
