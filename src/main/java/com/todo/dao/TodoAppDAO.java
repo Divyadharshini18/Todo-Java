@@ -13,7 +13,8 @@ public class TodoAppDAO {
     private static final String SELECT_TODO_BY_ID = "SELECT * FROM todos WHERE id = ?";
     private static final String UPDATE_TODO = "UPDATE todos SET title = ?, description = ?, completed = ?, updated_at = ? WHERE id = ?";
     private static final String DELETE_TODO = "DELETE FROM todos WHERE id = ?";
-    private static final String FILTER_TODO = "SELECT *FROM todos WHERE completed = ? ORDER BY created_at ASC";
+    private static final String FILTER_TODO = "SELECT * FROM todos WHERE completed = ?";
+
     // Create a new Todo
 
     public int createtodo(Todo todo) throws SQLException{
@@ -78,13 +79,29 @@ public class TodoAppDAO {
     public boolean deleteTodo(int todoId) throws SQLException {
         try (
             Connection conn = DatabaseConnection.getDBConnection();
-            PreparedStatement stmt = conn.prepareStatement(DELETE_TODO)
+            PreparedStatement stmt = conn.prepareStatement(DELETE_TODO);
         ) {
             stmt.setInt(1, todoId);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         }
     }
+
+    public List<Todo> filterTodos(boolean selected) throws SQLException {
+        List<Todo> todos = new ArrayList<>();
+        try (
+            Connection conn = DatabaseConnection.getDBConnection();
+            PreparedStatement stmt = conn.prepareStatement(FILTER_TODO);
+        ) {
+            stmt.setBoolean(1, selected);  
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                todos.add(getTodoRow(rs));
+            }
+        }
+        return todos;
+    }
+
 
     private Todo getTodoRow(ResultSet rs) throws SQLException{
         int id = rs.getInt("id");
@@ -114,7 +131,6 @@ public class TodoAppDAO {
         } catch(SQLException e) {
             System.err.println("Error fetching todos: "+e.getMessage());
             throw e; // rethrow the exception after logging
-
         }
         return todos;
     }
